@@ -3,113 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>qewsvit9 | Minecraft Style</title>
-    <!-- Підключаємо піксельний шрифт Press Start 2P від Google Fonts -->
+    <title>qewsvit9 | Minecraft Profile</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131c2e;
+            --border-color: #1f293d;
+            --accent-green: #22c55e;
+            --accent-blue: #3b82f6;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
         body {
-            background-color: #121212;
+            background-color: var(--bg-color);
             background-image: 
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 20px 20px;
-            color: #fff;
+                radial-gradient(circle at 50% 0%, #1e293b 0%, transparent 70%);
+            color: var(--text-main);
             font-family: 'Press Start 2P', monospace;
             text-align: center;
             margin: 0;
             padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: #212121;
-            border: 4px solid #3c3c3c;
-            box-shadow: inset -4px -4px #1b1b1b, inset 4px 4px #555;
-            padding: 30px 20px;
-        }
-        h1 {
-            font-size: 20px;
-            color: #55ff55;
-            text-shadow: 3px 3px #000;
-            margin-bottom: 10px;
-        }
-        p {
-            font-size: 10px;
-            color: #aaa;
-            line-height: 1.8;
-        }
-        .btn {
-            display: block;
-            background: #727272;
-            color: #fff;
-            text-decoration: none;
-            padding: 15px;
-            margin: 15px 0;
-            border: 4px solid #373737;
-            box-shadow: inset -4px -4px #222, inset 4px 4px #999;
-            font-size: 10px;
-            transition: 0.1s;
-        }
-        .btn:hover {
-            background: #5b8731;
-            border-color: #3b5c1e;
-            box-shadow: inset -4px -4px #2b4514, inset 4px 4px #76b03f;
-        }
-        /* Міні-гра: Клікер алмазів */
-        .game-box {
-            margin-top: 30px;
-            padding: 20px;
-            background: #181818;
-            border: 4px solid #2e2e2e;
-        }
-        #diamond-btn {
-            background: #00aaaa;
-            color: #fff;
-            font-family: 'Press Start 2P', monospace;
-            padding: 12px 20px;
-            border: 4px solid #005555;
-            box-shadow: inset -4px -4px #002b2b, inset 4px 4px #00ffff;
-            cursor: pointer;
-            font-size: 10px;
-            margin-top: 10px;
-        }
-        #diamond-btn:active {
-            box-shadow: inset 4px 4px #002b2b, inset -4px -4px #00ffff;
-        }
-        .score {
-            color: #ffff55;
-            font-size: 12px;
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
 
-    <div class="container">
-        <h1>qewsvit9.github.io</h1>
-        <p>[ Головний сервер виживання та профіль ]</p>
-        <hr style="border: 2px solid #3c3c3c; margin: 20px 0;">
-
-        <!-- Посилання (можеш замінити ніки на свої) -->
-        <a href="https://t.com" target="_blank" class="btn">⚡ Telegram</a>
-        <a href="https://github.com/qewsvit9" target="_blank" class="btn">🛠️ GitHub</a>
-
-        <!-- Міні-гра -->
-        <div class="game-box">
-            <p style="color: #ff5555;">МІНІ-ГРА: Шахта алмазів</p>
-            <p>Видобудь якомога більше алмазів кліками!</p>
-            <div class="score">Діаманти: <span id="count">0</span></div>
-            <button id="diamond-btn" onclick="mineDiamond()">Копати блок ⛏️</button>
-        </div>
-    </div>
-
-    <script>
-        let diamonds = 0;
-        function mineDiamond() {
-            diamonds++;
-            document.getElementById('count').innerText = diamonds;
+        .wrapper {
+            width: 100%;
+            max-width: 650px;
         }
-    </script>
 
-</body>
-</html>
+        .card {
+            background: var(--card-bg);
+            border: 4px solid var(--border-
