@@ -47,7 +47,6 @@
         }
         #frost-overlay.active { opacity: 1; }
 
-        /* Тільки сніжинки */
         .snowflake {
             position: absolute;
             top: -50px;
@@ -65,7 +64,6 @@
             100% { transform: translateY(105vh) translateX(-35px) rotate(360deg); }
         }
 
-        /* Статичний лічильник */
         .easter-counter {
             position: fixed;
             top: 15px;
@@ -255,7 +253,6 @@
             z-index: 10;
         }
 
-        /* Статичний селект в адмінці */
         .admin-select {
             width: 100%;
             max-width: 100%;
@@ -280,33 +277,4 @@
 
     <div id="info-modal" class="modal-overlay">
         <div class="modal-card">
-            <h3 style="font-family:'Unbounded'; font-size:15px; margin-bottom:10px; color:var(--accent);">🎁 Тайные пасхалки</h3>
-            <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px; line-height:1.5;">
-                Артефакты появляются прямо на экране со временем или через админку!<br>
-                💡 <b>Совет:</b> Потряси телефон для метели!
-            </p>
-            <button class="btn primary" onclick="closeInfoModal()" style="width:100%;">ПОНЯТНО</button>
-        </div>
-    </div>
-
-    <div id="cookie-modal" class="modal-overlay">
-        <div class="modal-card" id="cookie-card-box">
-            <div id="modal-icon" style="font-size: 40px; margin-bottom: 10px;"></div>
-            <h3 id="modal-title" style="font-family:'Unbounded'; font-size:15px; margin-bottom:8px; color:#fff;"></h3>
-            <p id="cookie-desc" style="font-size:12px; color:#94a3b8; margin-bottom:15px;"></p>
-            <button class="btn primary" onclick="claimCookie()" style="width:100%;">ЗАБРАТЬ</button>
-        </div>
-    </div>
-
-    <div id="master-modal" class="modal-overlay">
-        <div class="modal-card" style="border-color: #f59e0b; box-shadow: 0 0 60px #f59e0b;">
-            <div style="font-size: 50px; margin-bottom: 10px;">👑</div>
-            <h3 style="font-family:'Unbounded'; font-size:16px; margin-bottom:10px; color:#f59e0b;">ВЛАСТЕЛИН ЗИМЫ</h3>
-            <p style="font-size:12px; color:#f3f4f6; margin-bottom:20px; line-height:1.5;">
-                Невероятно! Вы собрали все 14 легендарных артефактов и покорили суровую метель! Титул Абсолютного Зимнего Мастера навсегда закреплен за вами.
-            </p>
-            <button class="btn primary" onclick="closeMasterModal()" style="width:100%;">ПОТРЯСАЮЩО!</button>
-        </div>
-    </div>
-
-    <div id="admin-modal" class="modal-overlay">
+            <h3 style="font-family:'Unbounded'; font-size:15px; margin-bottom
