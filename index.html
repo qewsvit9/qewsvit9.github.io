@@ -1,307 +1,197 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>qewsvit9.github.io | Fantasy RPG Hub</title>
-    <!-- Шрифти: піксельний та сучасний -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>qewsvit9.github.io - Minecraft Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Unbounded:wght@600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #0c0f17;
             --card-bg: #141a26;
             --border-color: #222c40;
-            --accent-gold: #f59e0b;
-            --accent-glow: rgba(245, 158, 11, 0.15);
+            --accent: #3b82f6;
+            --green: #22c55e;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 50% -20%, #1e293b 0%, transparent 60%),
-                linear-gradient(rgba(0,0,0,0.2) 1px, transparent 1px);
-            background-size: 100% 100%, 20px 20px;
             color: var(--text-main);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
-            padding: 20px;
+            font-family: 'Manrope', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: space-between;
         }
 
-        .container {
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .hero-card {
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 30px var(--accent-glow);
-            padding: 35px 25px;
-            text-align: center;
-            margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #3b82f6, var(--accent-gold), #ef4444);
-        }
-
-        .logo-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            display: inline-block;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-        }
-
-        h1 {
-            font-family: 'Press Start 2P', monospace;
-            font-size: 16px;
-            color: #fff;
-            margin-bottom: 8px;
-            text-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
-        }
-
-        .subtitle {
-            font-size: 12px;
-            color: var(--accent-gold);
-            margin-bottom: 20px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #4ade80;
-            font-size: 11px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
-
-        .pulse {
-            width: 8px;
-            height: 8px;
-            background: #4ade80;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #4ade80;
-            animation: blink 2s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .bio-text {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-
-        /* Кнопка копіювання IP */
-        .ip-box {
-            background: #0f141d;
-            border: 1px dashed var(--border-color);
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            transition: 0.2s;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(12, 15, 23, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .ip-box:hover {
-            border-color: var(--accent-gold);
-            background: #151c28;
-        }
-
-        .ip-text {
-            font-family: 'Press Start 2P', monospace;
-            font-size: 9px;
-            color: #e2e8f0;
-        }
-
-        .copy-hint {
-            font-size: 10px;
-            color: var(--accent-gold);
-            font-weight: 600;
-        }
-
-        /* Соц-кнопки */
-        .links-grid {
+        .brand {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 18px;
+            color: #fff;
+            text-decoration: none;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand span small {
+            display: block;
+            font-size: 10px;
+            color: var(--green);
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: clamp(24px, 4vw, 42px);
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h1 span { color: var(--accent); }
+
+        p {
+            color: var(--text-muted);
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
         }
 
         .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: #1a2233;
-            color: #fff;
-            text-decoration: none;
-            padding: 14px;
-            border-radius: 12px;
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            font-weight: 600;
-            font-size: 13px;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
             transition: 0.2s;
+            font-size: 14px;
+        }
+
+        .btn.primary {
+            background: var(--accent);
+            border-color: var(--accent);
         }
 
         .btn:hover {
-            background: #25334d;
-            border-color: var(--accent-gold);
             transform: translateY(-2px);
+            border-color: var(--accent);
         }
 
-        /* Міні-гра в стилі RPG */
-        .rpg-card {
+        .status-strip {
             background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 25px;
-            text-align: center;
-        }
-
-        .rpg-title {
-            font-family: 'Press Start 2P', monospace;
-            font-size: 10px;
-            color: var(--accent-gold);
-            margin-bottom: 15px;
-        }
-
-        .rpg-stats {
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px;
             display: flex;
-            justify-content: space-around;
-            font-size: 12px;
-            margin-bottom: 20px;
-            color: #cbd5e1;
-            font-weight: 600;
-        }
-
-        .rpg-stats span {
-            color: var(--accent-gold);
-        }
-
-        .action-btn {
-            background: linear-gradient(135deg, #d97706, #b45309);
-            color: #fff;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
-            transition: 0.15s;
-        }
-
-        .action-btn:active {
-            transform: scale(0.98);
-        }
-
-        .footer {
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
             text-align: center;
-            font-size: 10px;
-            color: #64748b;
-            margin-top: 25px;
+        }
+
+        .status-cell span {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .status-cell b {
+            font-size: 14px;
+            font-family: 'Unbounded', sans-serif;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Головна картка профілю -->
-        <div class="hero-card">
-            <div class="logo-icon">🏰</div>
-            <h1>qewsvit9</h1>
-            <div class="subtitle">Fantasy Builder & Server Admin</div>
+    <header>
+        <a class="brand" href="#">
+            <span>
+                qewsvit9
+                <small>#server-hub</small>
+            </span>
+        </a>
+        <div style="font-size: 14px; color: var(--text-muted);">Java Edition • 2026</div>
+    </header>
 
-            <div class="status-pill">
-                <div class="pulse"></div>
-                WORLD REBORN • ONLINE
-            </div>
-
-            <p class="bio-text">
-                Приватний проєкт, збірки серверів, архітектура та цифрові світи. Ласкаво просту до головного хабу.
-            </p>
-
-            <!-- Швидке копіювання IP -->
-            <div class="ip-box" onclick="copyIP()">
-                <span class="ip-text">🌐 qewsvit9.github.io</span>
-                <span class="copy-hint" id="copy-status">КОПІЮВАТИ</span>
-            </div>
-
-            <!-- Посилання -->
-            <div class="links-grid">
-                <a href="https://t.me" target="_blank" class="btn">💬 Telegram-канал</a>
-                <a href="https://github.com/qewsvit9" target="_blank" class="btn">📂 GitHub Репозиторії</a>
-            </div>
+    <main class="hero">
+        <h1>Динамічність. Затишок. <span>Майнкрафт.</span></h1>
+        <p>Головний хаб проєктів, збірок та особистий простір у стилі найкращих серверних спільнот.</p>
+        
+        <div class="actions">
+            <a href="https://github.com/qewsvit9" target="_blank" class="btn primary">GitHub Профіль</a>
+            <button class="btn" onclick="copyIP()">Скопіювати IP</button>
         </div>
+    </main>
 
-        <!-- RPG Міні-гра -->
-        <div class="rpg-card">
-            <div class="rpg-title">⚔️ ЕКСПЕДИЦІЯ В ШАХТУ</div>
-            <div class="rpg-stats">
-                Зібрано ресурсів: <span id="gold-count">0</span> 🪙
-            </div>
-            <button class="action-btn" onclick="gatherResource()">ДОБУТИ РЕСУРСИ ⛏️</button>
+    <section class="status-strip">
+        <div class="status-cell">
+            <span>Статус</span>
+            <b style="color: var(--green);">ONLINE</b>
         </div>
+        <div class="status-cell">
+            <span>Версія</span>
+            <b>1.21.1</b>
+        </div>
+        <div class="status-cell">
+            <span>Хостинг</span>
+            <b>GitHub Pages</b>
+        </div>
+    </section>
 
-        <div class="footer">
-            Design inspired by Fantasy RPG & Builder Communities &copy; 2026
-        </div>
-    </div>
+    <footer>
+        <p>&copy; 2026 qewsvit9.github.io. Всі права захищені вайбом.</p>
+    </footer>
 
     <script>
-        // Збереження прогресу міні-гри
-        let gold = localStorage.getItem('rpg_gold') ? parseInt(localStorage.getItem('rpg_gold')) : 0;
-        document.getElementById('gold-count').innerText = gold;
-
-        function gatherResource() {
-            gold += Math.floor(Math.random() * 3) + 1;
-            document.getElementById('gold-count').innerText = gold;
-            localStorage.setItem('rpg_gold', gold);
-        }
-
         function copyIP() {
             navigator.clipboard.writeText("qewsvit9.github.io");
-            const status = document.getElementById('copy-status');
-            status.innerText = "СКОПІЙОВАНО!";
-            setTimeout(() => {
-                status.innerText = "КОПІЮВАТИ";
-            }, 2000);
+            alert("IP скопійовано у буфер обміну!");
         }
     </script>
 
