@@ -33,28 +33,60 @@
             overflow-x: hidden;
         }
 
-        /* Зимний снег (анимация) */
+        /* Разные типы снежинок и загадочный лут */
         .snowflake {
             position: absolute;
-            top: -10px;
+            top: -20px;
             background: #ffffff;
-            border-radius: 50%;
             pointer-events: none;
             animation: fall linear infinite;
         }
 
+        /* Загадочный предмет, который падает каждые 30 секунд */
+        .mystery-item {
+            position: absolute;
+            top: -30px;
+            width: 16px;
+            height: 16px;
+            background: #f59e0b;
+            box-shadow: 0 0 12px #f59e0b;
+            transform: rotate(45deg);
+            border-radius: 3px;
+            cursor: pointer;
+            pointer-events: auto;
+            animation: mysteryFall 7s linear infinite;
+            z-index: 50;
+        }
+
+        .mystery-item:hover {
+            transform: rotate(45deg) scale(1.3);
+            box-shadow: 0 0 20px #ef4444;
+            background: #ef4444;
+        }
+
         @keyframes fall {
             0% {
-                transform: translateY(-10px) translateX(0);
-                opacity: 0.8;
+                transform: translateY(-20px) translateX(0) rotate(0deg);
+                opacity: 0.9;
             }
             50% {
-                transform: translateY(50vh) translateX(20px);
-                opacity: 0.5;
+                transform: translateY(50vh) translateX(15px) rotate(180deg);
+                opacity: 0.6;
             }
             100% {
-                transform: translateY(105vh) translateX(-20px);
-                opacity: 0.2;
+                transform: translateY(105vh) translateX(-15px) rotate(360deg);
+                opacity: 0.1;
+            }
+        }
+
+        @keyframes mysteryFall {
+            0% {
+                transform: translateY(-30px) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) translateX(40px) rotate(720deg);
+                opacity: 0.8;
             }
         }
 
@@ -131,7 +163,7 @@
             text-decoration: none;
             transition: 0.2s;
             font-size: 13px;
-            font-family: 'Unbounded', sans-serif; /* Исправлен шрифт на правильный */
+            font-family: 'Unbounded', sans-serif;
         }
 
         .btn.primary {
@@ -222,21 +254,32 @@
     </footer>
 
     <script>
-        // Генерация падающего снега
+        // Генерация разных снежинок
         function createSnowflake() {
             const snow = document.createElement('div');
             snow.classList.add('snowflake');
             snow.style.left = Math.random() * window.innerWidth + 'px';
-            snow.style.top = '-10px';
             
-            const size = Math.random() * 4 + 2 + 'px'; // Размер снежинки
-            snow.style.width = size;
-            snow.style.height = size;
+            // Разные формы и размеры (круги, кристаллы, точки)
+            const types = ['circle', 'crystal', 'pixel'];
+            const chosenType = types[Math.floor(Math.random() * types.length)];
             
-            const duration = Math.random() * 3 + 2 + 's'; // Скорость падения
+            const size = Math.random() * 5 + 2;
+            snow.style.width = size + 'px';
+            snow.style.height = size + 'px';
+
+            if (chosenType === 'circle') {
+                snow.style.borderRadius = '50%';
+            } else if (chosenType === 'crystal') {
+                snow.style.borderRadius = '25%';
+                snow.style.transform = 'rotate(45deg)';
+            } else {
+                snow.style.borderRadius = '0%'; // пиксельные квадратные снежинки
+            }
+            
+            const duration = Math.random() * 4 + 3 + 's';
             snow.style.animationDuration = duration;
-            
-            snow.style.opacity = Math.random() * 0.7 + 0.3;
+            snow.style.opacity = Math.random() * 0.7 + 0.2;
 
             document.body.appendChild(snow);
 
@@ -245,7 +288,38 @@
             }, parseFloat(duration) * 1000);
         }
 
-        setInterval(createSnowflake, 100);
+        // Запуск генерации снега
+        setInterval(createSnowflake, 120);
+
+        // Пасхалка: падение загадочного предмета каждые 30 секунд
+        const secrets = [
+            "✨ Вы поймали редкий осколок пустоты! Секрет активирован.",
+            "🔮 Древний рунный камень упал с небес прямо в ваш инвентарь.",
+            "💎 Поздравляем! Вы нашли зачарованный алмаз сервера.",
+            "⚡ Внимание: зафиксирована аномалия в чанке qewsvit9!"
+        ];
+
+        function spawnMysteryItem() {
+            const item = document.createElement('div');
+            item.classList.add('mystery-item');
+            item.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+            
+            item.onclick = function() {
+                const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
+                alert(randomSecret);
+                item.remove();
+            };
+
+            document.body.appendChild(item);
+
+            // Удаляем предмет через 7 секунд, если не кликнули
+            setTimeout(() => {
+                item.remove();
+            }, 7000);
+        }
+
+        // Вызов каждые 30 секунд (30000 миллисекунд)
+        setInterval(spawnMysteryItem, 30000);
 
         function copyIP() {
             navigator.clipboard.writeText("qewsvit9.github.io");
