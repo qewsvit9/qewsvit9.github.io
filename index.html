@@ -47,6 +47,7 @@
         }
         #frost-overlay.active { opacity: 1; }
 
+        /* Тільки сніжинки */
         .snowflake {
             position: absolute;
             top: -50px;
@@ -64,6 +65,7 @@
             100% { transform: translateY(105vh) translateX(-35px) rotate(360deg); }
         }
 
+        /* Статичний лічильник */
         .easter-counter {
             position: fixed;
             top: 15px;
@@ -253,19 +255,7 @@
             z-index: 10;
         }
 
-        .falling-egg {
-            position: absolute;
-            top: -50px;
-            cursor: pointer;
-            z-index: 100;
-            animation: eggFall linear infinite;
-            filter: drop-shadow(0 0 12px rgba(255,255,255,0.9));
-        }
-        @keyframes eggFall {
-            0% { transform: translateY(-50px) rotate(0deg); }
-            100% { transform: translateY(105vh) rotate(360deg); }
-        }
-
+        /* Статичний селект в адмінці */
         .admin-select {
             width: 100%;
             max-width: 100%;
@@ -292,8 +282,8 @@
         <div class="modal-card">
             <h3 style="font-family:'Unbounded'; font-size:15px; margin-bottom:10px; color:var(--accent);">🎁 Тайные пасхалки</h3>
             <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px; line-height:1.5;">
-                Ловите падающие сверху артефакты, собирайте коллекцию из 14 редких предметов!<br>
-                💡 <b>Совет:</b> Потряси телефон, чтобы запустить суперметель!
+                Артефакты появляются прямо на экране со временем или через админку!<br>
+                💡 <b>Совет:</b> Потряси телефон для метели!
             </p>
             <button class="btn primary" onclick="closeInfoModal()" style="width:100%;">ПОНЯТНО</button>
         </div>
@@ -320,277 +310,3 @@
     </div>
 
     <div id="admin-modal" class="modal-overlay">
-        <div class="modal-card">
-            <h3 style="font-family:'Unbounded'; font-size:15px; margin-bottom:10px; color:var(--accent);">🔐 Панель админа</h3>
-            <select id="adminEggSelect" class="admin-select"></select>
-            <button class="btn primary" onclick="adminSpawnEgg()" style="width:100%; margin-bottom:10px;">Заспавнить предмет</button>
-            <button class="btn" onclick="closeAdminModal()" style="width:100%;">Закрыть</button>
-        </div>
-    </div>
-
-    <header>
-        <a class="brand" href="#">
-            <span>kvakositRulit<small>#server-hub</small></span>
-        </a>
-    </header>
-
-    <main class="hero">
-        <h1>Зима. Метель. <span>Майнкрафт.</span></h1>
-        <p>Главный хаб проектов, сборок и личное пространство в стиле атмосферных зимних серверов.</p>
-        
-        <div class="actions">
-            <a href="https://github.com/qewsvit9" target="_blank" class="btn primary">GitHub Профиль</a>
-            <button class="btn" onclick="copyIP()">Скопировать IP</button>
-        </div>
-
-        <div class="snowman-box">
-            <div class="snowman-art"> ☃️ </div>
-            <span>Зимний уют на сайте под контролем</span>
-        </div>
-
-        <button class="admin-trigger" onclick="requestAdmin()">Панель управления</button>
-    </main>
-
-    <section class="status-strip">
-        <div class="status-cell"><span>Статус</span><b id="serverStatus" style="color: var(--green);">ONLINE</b></div>
-        <div class="status-cell"><span>Версия</span><b>NeoForge 1.21.1</b></div>
-        <div class="status-cell"><span>Онлайн</span><b id="serverOnline" style="color: var(--accent);">Загрузка...</b></div>
-        <div class="status-cell"><span>Игроки</span><b id="serverPlayers" style="color: #f3f4f6;">Загрузка...</b></div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 kvakositRulit. Зимний вайб под контролем.</p>
-    </footer>
-
-    <audio id="bgMusic" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
-    </audio>
-
-    <script>
-        window.addEventListener('click', () => {
-            const music = document.getElementById('bgMusic');
-            if(music && music.paused) { music.volume = 0.25; music.play().catch(()=>{}); }
-        }, { once: true });
-
-        // Перевірка онлайну з безпечним обходом помилок
-        const SERVER_IP = "c4.play2go.cloud:20072";
-
-        async function fetchServerStatus() {
-            try {
-                let response = await fetch(`https://api.mcsrvstat.us/3/${SERVER_IP}`);
-                let data = await response.json();
-                
-                const statusEl = document.getElementById('serverStatus');
-                const onlineEl = document.getElementById('serverOnline');
-                const playersEl = document.getElementById('serverPlayers');
-
-                if(data && data.online) {
-                    if(statusEl) { statusEl.innerText = "ONLINE"; statusEl.style.color = "var(--green)"; }
-                    if(onlineEl) { onlineEl.innerText = `${data.players.online} / ${data.players.max}`; }
-                    if(playersEl) {
-                        if(data.players.list && data.players.list.length > 0) {
-                            playersEl.innerText = data.players.list.join(', ');
-                        } else if(data.players.online > 0) {
-                            playersEl.innerText = `${data.players.online} в игре`;
-                        } else {
-                            playersEl.innerText = "Никого нет";
-                        }
-                    }
-                } else {
-                    if(statusEl) { statusEl.innerText = "ONLINE"; statusEl.style.color = "var(--green)"; }
-                    if(onlineEl) { onlineEl.innerText = "Готовий"; }
-                    if(playersEl) { playersEl.innerText = "Сервер активний"; }
-                }
-            } catch(e) {
-                // Якщо API недоступне, сайт все одно працює на 100%
-                const statusEl = document.getElementById('serverStatus');
-                const onlineEl = document.getElementById('serverOnline');
-                const playersEl = document.getElementById('serverPlayers');
-                if(statusEl) statusEl.innerText = "ONLINE";
-                if(onlineEl) onlineEl.innerText = "Готовий";
-                if(playersEl) playersEl.innerText = "Сервер активний";
-            }
-        }
-        fetchServerStatus();
-
-        const easterEggs = [
-            { id: 'tree_simple', name: 'Еловое дерево', rarity: 'common', desc: 'Обычное хвойное дерево из зимнего леса.', icon: '🌲' },
-            { id: 'mandarins', name: 'Мандарины', rarity: 'common', desc: 'Главный новогодний цитрусовый аромат.', icon: '🍊' },
-            { id: 'cane', name: 'Тростинка', rarity: 'rare', desc: 'Бело-красно-зеленая рождественская леденцовая трость.', icon: '🍬' },
-            { id: 'candle', name: 'Свеча', rarity: 'rare', desc: 'Уютная новогодняя свеча с теплым пламенем.', icon: '🕯️' },
-            { id: 'nikolay', name: 'Святой Николай', rarity: 'epic', desc: 'Голова святого, приносящего подарки.', icon: '🎅' },
-            { id: 'santa', name: 'Санта Клаус', rarity: 'epic', desc: 'Добрый бородач в красном кафтане.', icon: '🎁' },
-            { id: 'yol', name: 'Конь стародавний Йоль', rarity: 'legendary', desc: 'Древний мистический конь из легенд.', icon: '🦄' },
-            { id: 'cacao', name: 'Теплая кружка какао', rarity: 'legendary', desc: 'Зелено-красная кружка с узорами, маршмеллоу и горячим какао (с паром).', icon: '☕' },
-            { id: 'star_xmas', name: 'Рождественская звезда', rarity: 'mythic', desc: 'Сияющий путеводный символ праздника.', icon: '🌟' },
-            { id: 'tree_decor', name: 'Наряженная новогодняя елка', rarity: 'mythic', desc: 'Елка с гирляндами и большой звездой на макушке.', icon: '🎄' },
-            { id: 'garland', name: 'Гирлянда', rarity: 'ultra', desc: 'Переливающаяся разноцветная гирлянда.', icon: '💡' },
-            { id: 'dragon', name: 'Дракон (Символ 2026)', rarity: 'ultra', desc: 'Величественный символ уходящего 2026 года.', icon: '🐲' },
-            { id: 'goat', name: 'Красная огненная коза', rarity: 'chromatic', desc: 'Символ 2027 года, переливающийся перламутром.', icon: '🐐' },
-            { id: 'krampus', name: 'Крампус', rarity: 'absolute', desc: 'Сверхтайный древний дух! Выпадает крайне редко.', icon: '👹' }
-        ];
-
-        let foundEggs = [];
-        try { foundEggs = JSON.parse(localStorage.getItem('found_eggs') || '[]'); } catch(e) { foundEggs = []; }
-        let currentEgg = null;
-
-        function updateCounter() {
-            const countEl = document.getElementById('found-count');
-            if(countEl) countEl.innerText = foundEggs.length;
-            try {
-                if(foundEggs.length === 14 && !localStorage.getItem('master_shown')) {
-                    localStorage.setItem('master_shown', 'true');
-                    setTimeout(showMasterModal, 800);
-                }
-            } catch(e) {}
-        }
-        updateCounter();
-
-        function openInfoModal() { document.getElementById('info-modal').classList.add('show'); }
-        function closeInfoModal() { document.getElementById('info-modal').classList.remove('show'); }
-        function showMasterModal() { document.getElementById('master-modal').classList.add('show'); }
-        function closeMasterModal() { document.getElementById('master-modal').classList.remove('show'); }
-
-        const snowflakeSymbols = ['❄', '❅', '❆', '•', '✧', '✦'];
-        let snowTimer = setInterval(createRealSnow, 120);
-
-        function createRealSnow() {
-            const snow = document.createElement('div');
-            snow.classList.add('snowflake');
-            snow.innerHTML = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
-            snow.style.left = Math.random() * window.innerWidth + 'px';
-            const fontSize = Math.random() * 18 + 10;
-            snow.style.fontSize = fontSize + 'px';
-            const duration = Math.random() * 4 + 3 + 's';
-            snow.style.animationDuration = duration;
-            snow.style.opacity = Math.random() * 0.8 + 0.2;
-            document.body.appendChild(snow);
-            setTimeout(() => snow.remove(), parseFloat(duration) * 1000);
-        }
-
-        let lastX = 0, lastY = 0, lastZ = 0;
-        let lastUpdate = 0;
-
-        window.addEventListener('devicemotion', (e) => {
-            let current = e.accelerationIncludingGravity;
-            if (!current) return;
-            let currentTime = Date.now();
-            if ((currentTime - lastUpdate) > 100) {
-                let diffTime = currentTime - lastUpdate;
-                lastUpdate = currentTime;
-                let speed = Math.abs(current.x + current.y + current.z - lastX - lastY - lastZ) / diffTime * 10000;
-                if (speed > 400) { triggerSuperBlizzard(); }
-                lastX = current.x; lastY = current.y; lastZ = current.z;
-            }
-        });
-
-        function triggerSuperBlizzard() {
-            const frost = document.getElementById('frost-overlay');
-            if(frost) frost.classList.add('active');
-            clearInterval(snowTimer);
-            snowTimer = setInterval(createRealSnow, 15);
-            setTimeout(() => {
-                if(frost) frost.classList.remove('active');
-                clearInterval(snowTimer);
-                snowTimer = setInterval(createRealSnow, 120);
-            }, 8000);
-        }
-
-        function spawnEgg(forcedEgg = null) {
-            let egg = forcedEgg;
-            if(!egg) {
-                let available = easterEggs.filter(e => !foundEggs.includes(e.id));
-                if(available.length === 0) return;
-                
-                if(Math.random() < 0.05) {
-                    egg = easterEggs.find(e => e.id === 'krampus');
-                } else {
-                    let regular = available.filter(e => e.id !== 'krampus');
-                    if(regular.length > 0) egg = regular[Math.floor(Math.random() * regular.length)];
-                    else egg = available[0];
-                }
-            }
-
-            if(!egg) return;
-
-            const el = document.createElement('div');
-            el.classList.add('falling-egg');
-            el.innerHTML = `<div style="font-size:32px; background:rgba(17,24,39,0.85); padding:10px; border-radius:50%; box-shadow:0 0 15px #38bdf8; border:2px solid #38bdf8;">${egg.icon}</div>`;
-            el.style.left = Math.random() * (window.innerWidth - 70) + 'px';
-            el.style.animationDuration = (Math.random() * 4 + 5) + 's';
-
-            el.onclick = () => {
-                currentEgg = egg;
-                showCookieModal(egg);
-                el.remove();
-            };
-
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), 9000);
-        }
-        setInterval(spawnEgg, 16000);
-
-        function showCookieModal(egg) {
-            const modal = document.getElementById('cookie-modal');
-            const card = document.getElementById('cookie-card-box');
-            card.className = 'modal-card rarity-' + egg.rarity;
-            document.getElementById('modal-icon').innerText = egg.icon;
-            document.getElementById('modal-title').innerText = egg.name;
-            document.getElementById('cookie-desc').innerHTML = `${egg.desc}<br><br><small style="color:var(--accent); font-weight:700;">Редкость: ${egg.rarity.toUpperCase()}</small>`;
-            modal.classList.add('show');
-
-            if(egg.id === 'krampus') {
-                triggerSuperBlizzard();
-            }
-        }
-
-        function claimCookie() {
-            if(currentEgg && !foundEggs.includes(currentEgg.id)) {
-                foundEggs.push(currentEgg.id);
-                try { localStorage.setItem('found_eggs', JSON.stringify(foundEggs)); } catch(e) {}
-                updateCounter();
-            }
-            document.getElementById('cookie-modal').classList.remove('show');
-        }
-
-        function requestAdmin() {
-            const pass = prompt("Введите пароль админа:");
-            if(pass === "513600") {
-                openAdminModal();
-            } else if(pass !== null) {
-                alert("Неверный пароль!");
-            }
-        }
-
-        function openAdminModal() {
-            const select = document.getElementById('adminEggSelect');
-            select.innerHTML = '';
-            easterEggs.forEach(e => {
-                let opt = document.createElement('option');
-                opt.value = e.id;
-                opt.innerText = e.name + ' (' + e.rarity + ')';
-                select.appendChild(opt);
-            });
-            document.getElementById('admin-modal').classList.add('show');
-        }
-
-        function closeAdminModal() {
-            document.getElementById('admin-modal').classList.remove('show');
-        }
-
-        function adminSpawnEgg() {
-            const selectedId = document.getElementById('adminEggSelect').value;
-            const targetEgg = easterEggs.find(e => e.id === selectedId);
-            if(targetEgg) {
-                spawnEgg(targetEgg);
-                closeAdminModal();
-            }
-        }
-
-        function copyIP() {
-            navigator.clipboard.writeText("kvakositRulit");
-            alert("IP скопирован в буфер обмена!");
-        }
-    </script>
-</body>
-</html>
