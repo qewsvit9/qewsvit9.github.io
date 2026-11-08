@@ -3,15 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>qewsvit9.github.io - Minecraft Hub</title>
+    <title>qewsvit9.github.io - Ultimate Winter Hub</title>
+    <!-- Фавикон (спарк) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'><path d='M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Unbounded:wght@600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #070b14;
-            --card-bg: rgba(13, 19, 33, 0.85);
-            --border-color: #1a2744;
+            --bg-color: #050811;
+            --card-bg: rgba(11, 16, 28, 0.9);
+            --border-color: #1e293b;
             --accent: #38bdf8;
             --green: #22c55e;
             --text-main: #f3f4f6;
@@ -20,9 +22,10 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        /* Кастомный фурри-курсор */
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% 0%, #0f1d36 0%, transparent 70%);
+            background-image: radial-gradient(circle at 50% 0%, #0d1b33 0%, transparent 70%);
             color: var(--text-main);
             font-family: 'Manrope', sans-serif;
             min-height: 100vh;
@@ -31,9 +34,23 @@
             justify-content: space-between;
             position: relative;
             overflow-x: hidden;
+            cursor: url('https://api.iconify.design/lucide:paw-print.svg?color=%2338bdf8&width=24'), auto;
         }
 
-        /* Разные типы снежинок и загадочный лут */
+        /* Морозные узоры на окне (активируются при метели) */
+        #frost-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 1s ease;
+            background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, rgba(255,255,255,0.2) 100%);
+            box-shadow: inset 0 0 100px rgba(255,255,255,0.4);
+        }
+        #frost-overlay.active { opacity: 1; }
+
+        /* Снежинки */
         .snowflake {
             position: absolute;
             top: -20px;
@@ -42,290 +59,66 @@
             animation: fall linear infinite;
         }
 
-        /* Загадочный предмет, который падает каждые 30 секунд */
-        .mystery-item {
-            position: absolute;
-            top: -30px;
-            width: 16px;
-            height: 16px;
-            background: #f59e0b;
-            box-shadow: 0 0 12px #f59e0b;
-            transform: rotate(45deg);
-            border-radius: 3px;
-            cursor: pointer;
-            pointer-events: auto;
-            animation: mysteryFall 7s linear infinite;
-            z-index: 50;
-        }
-
-        .mystery-item:hover {
-            transform: rotate(45deg) scale(1.3);
-            box-shadow: 0 0 20px #ef4444;
-            background: #ef4444;
-        }
-
         @keyframes fall {
-            0% {
-                transform: translateY(-20px) translateX(0) rotate(0deg);
-                opacity: 0.9;
-            }
-            50% {
-                transform: translateY(50vh) translateX(15px) rotate(180deg);
-                opacity: 0.6;
-            }
-            100% {
-                transform: translateY(105vh) translateX(-15px) rotate(360deg);
-                opacity: 0.1;
-            }
+            0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0.9; }
+            50% { transform: translateY(50vh) translateX(20px) rotate(180deg); opacity: 0.6; }
+            100% { transform: translateY(105vh) translateX(-20px) rotate(360deg); opacity: 0.1; }
         }
 
-        @keyframes mysteryFall {
-            0% {
-                transform: translateY(-30px) translateX(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(105vh) translateX(40px) rotate(720deg);
-                opacity: 0.8;
-            }
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(7, 11, 20, 0.7);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .brand {
-            font-family: 'Unbounded', sans-serif;
-            font-size: 18px;
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .brand span small {
-            display: block;
-            font-size: 10px;
-            color: var(--green);
-            font-family: 'Manrope', sans-serif;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 80px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            z-index: 10;
-        }
-
-        h1 {
-            font-family: 'Unbounded', sans-serif;
-            font-size: clamp(22px, 4vw, 38px);
-            margin-bottom: 20px;
-            line-height: 1.3;
-        }
-
-        h1 span { color: var(--accent); }
-
-        p {
-            color: var(--text-muted);
-            font-size: 15px;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-        }
-
-        .btn {
+        /* Счетчик пасхалок (топ-право) */
+        .easter-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 14px 24px;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            transition: 0.2s;
-            font-size: 13px;
+            border: 2px solid var(--accent);
+            padding: 8px 16px;
+            border-radius: 20px;
             font-family: 'Unbounded', sans-serif;
-        }
-
-        .btn.primary {
-            background: #0284c7;
-            border-color: #0369a1;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent);
-        }
-
-        .status-strip {
-            background: var(--card-bg);
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            text-align: center;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-        }
-
-        .status-cell span {
-            display: block;
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .status-cell b {
-            font-size: 13px;
-            font-family: 'Unbounded', sans-serif;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
             font-size: 12px;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border-color);
-            z-index: 10;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <a class="brand" href="#">
-            <span>
-                qewsvit9
-                <small>#server-hub</small>
-            </span>
-        </a>
-        <div style="font-size: 13px; color: var(--text-muted); font-family: 'Unbounded', sans-serif;">Java Edition • 2026</div>
-    </header>
-
-    <main class="hero">
-        <h1>Динамичность. Зима. <span>Майнкрафт.</span></h1>
-        <p>Главный хаб проектов, сборок и личное пространство в стиле атмосферных зимних серверов.</p>
-        
-        <div class="actions">
-            <a href="https://github.com/qewsvit9" target="_blank" class="btn primary">GitHub Профиль</a>
-            <button class="btn" onclick="copyIP()">Скопировать IP</button>
-        </div>
-    </main>
-
-    <section class="status-strip">
-        <div class="status-cell">
-            <span>Статус</span>
-            <b style="color: var(--green);">ONLINE</b>
-        </div>
-        <div class="status-cell">
-            <span>Версия</span>
-            <b>1.21.1</b>
-        </div>
-        <div class="status-cell">
-            <span>Хостинг</span>
-            <b>GitHub Pages</b>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 qewsvit9.github.io. Зимний вайб под контролем.</p>
-    </footer>
-
-    <script>
-        // Генерация разных снежинок
-        function createSnowflake() {
-            const snow = document.createElement('div');
-            snow.classList.add('snowflake');
-            snow.style.left = Math.random() * window.innerWidth + 'px';
-            
-            // Разные формы и размеры (круги, кристаллы, точки)
-            const types = ['circle', 'crystal', 'pixel'];
-            const chosenType = types[Math.floor(Math.random() * types.length)];
-            
-            const size = Math.random() * 5 + 2;
-            snow.style.width = size + 'px';
-            snow.style.height = size + 'px';
-
-            if (chosenType === 'circle') {
-                snow.style.borderRadius = '50%';
-            } else if (chosenType === 'crystal') {
-                snow.style.borderRadius = '25%';
-                snow.style.transform = 'rotate(45deg)';
-            } else {
-                snow.style.borderRadius = '0%'; // пиксельные квадратные снежинки
-            }
-            
-            const duration = Math.random() * 4 + 3 + 's';
-            snow.style.animationDuration = duration;
-            snow.style.opacity = Math.random() * 0.7 + 0.2;
-
-            document.body.appendChild(snow);
-
-            setTimeout(() => {
-                snow.remove();
-            }, parseFloat(duration) * 1000);
+            color: #fff;
+            z-index: 1001;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            cursor: help;
         }
 
-        // Запуск генерации снега
-        setInterval(createSnowflake, 120);
-
-        // Пасхалка: падение загадочного предмета каждые 30 секунд
-        const secrets = [
-            "✨ Вы поймали редкий осколок пустоты! Секрет активирован.",
-            "🔮 Древний рунный камень упал с небес прямо в ваш инвентарь.",
-            "💎 Поздравляем! Вы нашли зачарованный алмаз сервера.",
-            "⚡ Внимание: зафиксирована аномалия в чанке qewsvit9!"
-        ];
-
-        function spawnMysteryItem() {
-            const item = document.createElement('div');
-            item.classList.add('mystery-item');
-            item.style.left = Math.random() * (window.innerWidth - 50) + 'px';
-            
-            item.onclick = function() {
-                const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
-                alert(randomSecret);
-                item.remove();
-            };
-
-            document.body.appendChild(item);
-
-            // Удаляем предмет через 7 секунд, если не кликнули
-            setTimeout(() => {
-                item.remove();
-            }, 7000);
+        /* Модалка КУККИ */
+        #cookie-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+        #cookie-modal.show { opacity: 1; pointer-events: auto; }
+        .cookie-card {
+            background: #111827;
+            border: 3px solid;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 350px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            animation: popUp 0.3s ease;
+        }
+        @keyframes popUp {
+            0% { transform: scale(0.7); }
+            100% { transform: scale(1); }
         }
 
-        // Вызов каждые 30 секунд (30000 миллисекунд)
-        setInterval(spawnMysteryItem, 30000);
+        /* Редкости стили */
+        .rarity-common { border-color: #94a3b8; }
+        .rarity-rare { border-color: #38bdf8; box-shadow: 0 0 15px #38bdf8; }
+        .rarity-epic { border-color: #a855f7; box-shadow: 0 0 20px #a855f7; animation: pulseEpic 2s infinite; }
+        .rarity-legendary { border-color: #f59e0b; box-shadow: 0 0 25px #f59e0b; }
+        .rarity-mythic { border-color: #ef4444; box-shadow: 0 0 25px #ef4444; }
+        .rarity-ultra { border-color: #06b6d4; box-shadow: 0 0 30px #06b6d4; }
+        .rarity-chromatic { border-image: linear-gradient(45deg, red, yellow, green, cyan, blue, violet) 1; }
+        .rarity-absolute { border-color: #ff007f; box-shadow: 0 0 40px #ff007f, inset 0 0 20px #3b82f6; background: #000; }
 
-        function copyIP() {
-            navigator.clipboard.writeText("qewsvit9.github.io");
-            alert("IP скопирован в буфер обмена!");
-        }
-    </script>
-
-</body>
-</html>
+        @keyframes pulseEpic { 0%, 100% { opacity: 0.8; } 50%
