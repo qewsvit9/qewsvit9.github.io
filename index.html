@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>kvakositRulit</title>
-    <!-- Пиксельный шрифт Minecraft в стиле -->
+    <!-- Піксельні шрифти Майнкрафт -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
@@ -23,10 +23,11 @@
 
         body {
             background-color: var(--mc-bg);
-            /* Твое зимнее фото на фоне с темным майнкрафтовским напылением */
-            background-image: linear-gradient(rgba(5, 8, 17, 0.75), rgba(5, 8, 17, 0.85)), url('https://i.imgur.com/8X7v29b.png');
+            /* Фіксований фон без стрибків */
+            background-image: linear-gradient(rgba(5, 8, 17, 0.75), rgba(5, 8, 17, 0.85)), url('background.png');
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             background-attachment: fixed;
             color: var(--text-main);
             font-family: 'VT323', monospace;
@@ -39,21 +40,22 @@
             overflow-x: hidden;
         }
 
-        /* Зимовий снігопад */
+        /* Твої оригінальні сніжинки */
         .snowflake {
             position: absolute;
-            top: -30px;
+            top: -50px;
             color: #ffffff;
             user-select: none;
             pointer-events: none;
             z-index: 5;
             animation: snowfall linear infinite;
-            text-shadow: 0 0 4px rgba(255,255,255,0.8);
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.7));
         }
 
         @keyframes snowfall {
-            0% { transform: translateY(-30px) translateX(0); }
-            100% { transform: translateY(105vh) translateX(25px); }
+            0% { transform: translateY(-50px) translateX(0) rotate(0deg); }
+            50% { transform: translateY(50vh) translateX(35px) rotate(180deg); }
+            100% { transform: translateY(105vh) translateX(-35px) rotate(360deg); }
         }
 
         header {
@@ -115,7 +117,6 @@
             margin-bottom: 25px;
         }
 
-        /* Піксельні кнопки у стилі Майнкрафт */
         .btn {
             background: #2b3b55;
             border: 3px solid;
@@ -133,7 +134,6 @@
         .btn.primary { background: #1c5230; border-color: #388d51 #0e2918 #0e2918 #388d51; color: var(--mc-accent); }
         .btn:active { border-color: #1b263b #5c7ba8 #5c7ba8 #1b263b; transform: translateY(2px); }
 
-        /* Плашка статусів у вигляді піксельної панелі */
         .status-strip {
             background: var(--mc-card);
             border-top: 4px solid var(--mc-border);
@@ -149,10 +149,10 @@
         .status-cell span { display: block; font-size: 14px; color: var(--text-muted); }
         .status-cell b { font-size: 20px; font-family: 'Press Start 2P', monospace; }
 
-        /* ФУРРІ ПЕРСОНАЖ ЗНИЗУ */
+        /* ФУРРІ ПЕРСОНАЖ ЗНИЗУ ЗЛІВА */
         .furry-container {
             position: fixed;
-            bottom: 10px;
+            bottom: 15px;
             left: 15px;
             z-index: 100;
             cursor: pointer;
@@ -161,9 +161,9 @@
         }
         .furry-container:hover { transform: scale(1.08); }
         .furry-img {
-            width: 75px;
-            height: 75px;
-            border-radius: 12px;
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
             border: 3px solid var(--mc-blue);
             background: #111;
             object-fit: cover;
@@ -224,18 +224,18 @@
 </head>
 <body>
 
-    <!-- Фуррі персонаж знизу зліва (меукає при кліку) -->
+    <!-- Персонаж знизу зліва (використовує твій femboy.png та меукає під meow9.wav) -->
     <div class="furry-container" onclick="meowSound()">
-        <img src="https://i.imgur.com/7k123ab.png" alt="Furry" class="furry-img" id="furryImg" onerror="this.src='https://images.unsplash.com/photo-1534361960057-19889db9621e?w=150&auto=format&fit=crop&q=80'">
-        <div style="font-size: 11px; color: var(--mc-blue); text-shadow: 1px 1px #000; margin-top:2px;">Клікни мене!</div>
+        <img src="femboy.png" alt="Furry" class="furry-img" onerror="this.src='https://images.unsplash.com/photo-1534361960057-19889db9621e?w=150&auto=format&fit=crop&q=80'">
+        <div style="font-size: 10px; color: var(--mc-blue); text-shadow: 1px 1px #000; margin-top:2px;">Клікні мене!</div>
     </div>
 
-    <!-- Модалка адмінки -->
+    <!-- Модалка адмінки (пароль 513600) -->
     <div id="admin-modal" class="modal-overlay">
         <div class="modal-card">
             <h3 style="font-family:'Press Start 2P'; font-size:12px; margin-bottom:15px; color:var(--mc-accent);">🔐 АДМІН-ПАНЕЛЬ</h3>
             <p style="font-size:18px; margin-bottom:15px;">Панель управления сервером NeoForge 1.21.1</p>
-            <button class="btn primary" onclick="closeAdminModal()" style="width:100%; margin-bottom:10px;">Закрыть</button>
+            <button class="btn primary" onclick="closeAdminModal()" style="width:100%;">Закрыть</button>
         </div>
     </div>
 
@@ -267,20 +267,20 @@
         <p>&copy; 2026 kvakositRulit. Зимний вайб под контролем.</p>
     </footer>
 
-    <!-- Аудіо для мяукання та ембієнту -->
-    <audio id="meowAudio" src="https://assets.mixkit.co/active_storage/sfx/3141/3141-preview.mp3"></audio>
+    <!-- Твій аудіофайл meow9.wav -->
+    <audio id="meowAudio" src="meow9.wav"></audio>
     <audio id="bgMusic" loop>
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // Музика при першому кліку
+        // Запуск фонової музики при першому кліку
         window.addEventListener('click', () => {
             const music = document.getElementById('bgMusic');
             if(music && music.paused) { music.volume = 0.2; music.play().catch(()=>{}); }
         }, { once: true });
 
-        // Мяукання фуррі
+        // Відтворення твого звуку meow9.wav
         function meowSound() {
             const audio = document.getElementById('meowAudio');
             if(audio) {
@@ -312,24 +312,24 @@
         }
         fetchServerStatus();
 
-        // Снігопад
-        const snowflakeSymbols = ['*', '·', '+', 'o'];
-        function createSnow() {
+        // Повернені оригінальні сніжинки
+        const snowflakeSymbols = ['❄', '❅', '❆', '•', '✧', '✦'];
+        function createRealSnow() {
             const snow = document.createElement('div');
             snow.classList.add('snowflake');
             snow.innerHTML = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
             snow.style.left = Math.random() * window.innerWidth + 'px';
-            const fontSize = Math.random() * 14 + 10;
+            const fontSize = Math.random() * 18 + 10;
             snow.style.fontSize = fontSize + 'px';
             const duration = Math.random() * 4 + 3 + 's';
             snow.style.animationDuration = duration;
-            snow.style.opacity = Math.random() * 0.7 + 0.3;
+            snow.style.opacity = Math.random() * 0.8 + 0.2;
             document.body.appendChild(snow);
             setTimeout(() => snow.remove(), parseFloat(duration) * 1000);
         }
-        setInterval(createSnow, 100);
+        setInterval(createRealSnow, 120);
 
-        // Адмін-панель
+        // Адмін-панель (пароль 513600)
         function requestAdmin() {
             const pass = prompt("Введите пароль админа:");
             if(pass === "513600") {
@@ -339,7 +339,7 @@
             }
         }
         function closeAdminModal() {
-            document.getElementById('admin-modal').classList.remove('storage') || document.getElementById('admin-modal').classList.remove('show');
+            document.getElementById('admin-modal').classList.remove('show');
         }
 
         function copyIP() {
