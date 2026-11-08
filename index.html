@@ -36,7 +36,7 @@
             cursor: url('https://api.iconify.design/lucide:paw-print.svg?color=%2338bdf8&width=24'), auto;
         }
 
-        /* Морозные узоры на окне */
+        /* Морозные узоры на окне при Крампусе */
         #frost-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -49,7 +49,7 @@
         }
         #frost-overlay.active { opacity: 1; }
 
-        /* Снежинки (мелкие и крупные детальные) */
+        /* Снежинки */
         .snowflake {
             position: absolute;
             top: -20px;
@@ -64,7 +64,7 @@
             100% { transform: translateY(105vh) translateX(-15px) rotate(360deg); opacity: 0.2; }
         }
 
-        /* Счетчик пасхалок (адаптирован для моб. и ПК) */
+        /* Счетчик пасхалок */
         .easter-counter {
             position: fixed;
             top: 15px;
@@ -153,7 +153,7 @@
 
         .hero {
             text-align: center;
-            padding: 50px 20px;
+            padding: 60px 20px;
             max-width: 800px;
             margin: 0 auto;
             z-index: 10;
@@ -203,47 +203,17 @@
         /* Снеговик снизу */
         .snowman-box {
             text-align: center;
-            margin: 20px auto;
+            margin: 30px auto 10px auto;
             z-index: 10;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
         }
         .snowman-art {
-            font-size: 32px;
+            font-size: 36px;
             line-height: 1.2;
             margin-bottom: 5px;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.4));
+            filter: drop-shadow(0 0 6px rgba(255,255,255,0.5));
         }
-
-        /* Новости */
-        .news-section {
-            max-width: 700px;
-            margin: 20px auto;
-            padding: 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            z-index: 10;
-            width: 90%;
-        }
-        .news-section h3 { font-family: 'Unbounded', sans-serif; font-size: 13px; margin-bottom: 12px; color: var(--accent); }
-        .news-form {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .news-input {
-            flex: 1;
-            background: #0b101c;
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 10px;
-            border-radius: 8px;
-            font-family: 'Manrope', sans-serif;
-            font-size: 13px;
-        }
-        .news-list { text-align: left; font-size: 12px; color: var(--text-muted); list-style: none; max-height: 120px; overflow-y: auto; }
-        .news-list li { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
         .status-strip {
             background: var(--card-bg);
@@ -257,6 +227,7 @@
             text-align: center;
             z-index: 10;
             backdrop-filter: blur(5px);
+            margin-top: 20px;
         }
         .status-cell span { display: block; font-size: 10px; color: var(--text-muted); margin-bottom: 2px; }
         .status-cell b { font-size: 12px; font-family: 'Unbounded', sans-serif; }
@@ -317,25 +288,13 @@
             <a href="https://github.com/qewsvit9" target="_blank" class="btn primary">GitHub Профиль</a>
             <button class="btn" onclick="copyIP()">Скопировать IP</button>
         </div>
-    </main>
 
-    <!-- Снеговик -->
-    <div class="snowman-box">
-        <div class="snowman-art"> ☃️ </div>
-        <span>Зимний уют на сайте под контролем</span>
-    </div>
-
-    <!-- Доска новостей с кнопкой -->
-    <section class="news-section">
-        <h3>📢 Доска новостей</h3>
-        <div class="news-form">
-            <input type="text" id="newsInput" class="news-input" placeholder="Написать новость..." onkeypress="checkEnter(event)">
-            <button class="btn primary" onclick="addNewPost()" style="padding: 10px 15px;">Отправить</button>
+        <!-- Снеговик снизу -->
+        <div class="snowman-box">
+            <div class="snowman-art"> ☃️ </div>
+            <span>Зимний уют на сайте под контролем</span>
         </div>
-        <ul class="news-list" id="newsList">
-            <li>🔥 [Система]: Запущен зимний сезон и поиск секретных пасхалок!</li>
-        </ul>
-    </section>
+    </main>
 
     <section class="status-strip">
         <div class="status-cell"><span>Статус</span><b style="color: var(--green);">ONLINE</b></div>
@@ -373,7 +332,7 @@
         }
         updateCounter();
 
-        // Генерация метели (мелкие и крупные снежинки)
+        // Надежная генерация снегопада
         function createElements() {
             const snow = document.createElement('div');
             snow.classList.add('snowflake');
@@ -388,7 +347,7 @@
             document.body.appendChild(snow);
             setTimeout(() => snow.remove(), parseFloat(duration) * 1000);
         }
-        setInterval(createElements, 90);
+        setInterval(createElements, 80);
 
         // Спавн пасхалок
         function spawnEgg() {
@@ -421,7 +380,7 @@
             document.body.appendChild(el);
             setTimeout(() => el.remove(), 9000);
         }
-        setInterval(spawnEgg, 18000);
+        setInterval(spawnEgg, 15000);
 
         function showCookieModal(egg) {
             const modal = document.getElementById('cookie-modal');
@@ -450,34 +409,6 @@
             alert("❄️ ВНИМАНИЕ! КРАМПУС АКТИВИРОВАЛ АНОМАЛЬНУЮ МЕТЕЛЬ! Экран замерзает!");
             setTimeout(() => { frost.classList.remove('active'); }, 15000);
         }
-
-        // Логика новостей с кнопкой и localStorage
-        function addNewPost() {
-            const input = document.getElementById('newsInput');
-            const text = input.value.trim();
-            if(text !== '') {
-                let news = JSON.parse(localStorage.getItem('site_news') || '[]');
-                news.unshift(text);
-                localStorage.setItem('site_news', JSON.stringify(news));
-                renderNews();
-                input.value = '';
-            }
-        }
-
-        function checkEnter(e) {
-            if(e.key === 'Enter') {
-                addNewPost();
-            }
-        }
-
-        function renderNews() {
-            let news = JSON.parse(localStorage.getItem('site_news') || '[]');
-            const list = document.getElementById('newsList');
-            let html = '<li>🔥 [Система]: Запущен зимний сезон и поиск секретных пасхалок!</li>';
-            news.forEach(n => { html += `<li>💬 ${n}</li>`; });
-            list.innerHTML = html;
-        }
-        renderNews();
 
         function copyIP() {
             navigator.clipboard.writeText("kvakositRulit");
