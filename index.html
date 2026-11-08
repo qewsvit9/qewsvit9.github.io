@@ -4,83 +4,186 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>kvakositRulit</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'><path d='M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z'/></svg>">
+    <!-- Пиксельный шрифт Minecraft в стиле -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Unbounded:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #050811;
-            --card-bg: rgba(11, 16, 28, 0.95);
-            --border-color: #1e293b;
-            --accent: #38bdf8;
-            --green: #22c55e;
-            --text-main: #f3f4f6;
-            --text-muted: #94a3b8;
+            --mc-bg: #121620;
+            --mc-card: rgba(16, 22, 38, 0.9);
+            --mc-border: #3b445c;
+            --mc-accent: #55ff55;
+            --mc-blue: #38bdf8;
+            --text-main: #ffffff;
+            --text-muted: #a0aec0;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; image-rendering: pixelated; }
 
         body {
-            background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% 0%, #0d1b33 0%, transparent 70%);
+            background-color: var(--mc-bg);
+            /* Твое зимнее фото на фоне с темным майнкрафтовским напылением */
+            background-image: linear-gradient(rgba(5, 8, 17, 0.75), rgba(5, 8, 17, 0.85)), url('https://i.imgur.com/8X7v29b.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: var(--text-main);
-            font-family: 'Manrope', sans-serif;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
             overflow-x: hidden;
-            cursor: url('https://api.iconify.design/lucide:paw-print.svg?color=%2338bdf8&width=24'), auto;
         }
 
-        #frost-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 1s ease;
-            background: radial-gradient(circle, rgba(56,189,248,0.25) 0%, rgba(255,255,255,0.5) 100%);
-            box-shadow: inset 0 0 150px rgba(255,255,255,0.8);
-        }
-        #frost-overlay.active { opacity: 1; }
-
+        /* Зимовий снігопад */
         .snowflake {
             position: absolute;
-            top: -50px;
+            top: -30px;
             color: #ffffff;
             user-select: none;
             pointer-events: none;
             z-index: 5;
             animation: snowfall linear infinite;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.7));
+            text-shadow: 0 0 4px rgba(255,255,255,0.8);
         }
 
         @keyframes snowfall {
-            0% { transform: translateY(-50px) translateX(0) rotate(0deg); }
-            50% { transform: translateY(50vh) translateX(35px) rotate(180deg); }
-            100% { transform: translateY(105vh) translateX(-35px) rotate(360deg); }
+            0% { transform: translateY(-30px) translateX(0); }
+            100% { transform: translateY(105vh) translateX(25px); }
         }
 
-        .easter-counter {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            background: var(--card-bg);
-            border: 2px solid var(--accent);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-family: 'Unbounded', sans-serif;
-            font-size: 11px;
-            color: #fff;
-            z-index: 1000;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-            cursor: pointer;
-            transition: 0.2s;
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            border-bottom: 4px solid var(--mc-border);
+            background: rgba(10, 14, 24, 0.9);
+            z-index: 50;
         }
-        .easter-counter:hover { transform: scale(1.05); }
+
+        .brand {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 14px;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 2px 2px #000;
+        }
+        .brand span small {
+            display: block;
+            font-size: 8px;
+            color: var(--mc-accent);
+            margin-top: 4px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(16px, 3.5vw, 26px);
+            margin-bottom: 20px;
+            line-height: 1.5;
+            text-shadow: 3px 3px #000;
+        }
+        h1 span { color: var(--mc-blue); }
+
+        p {
+            color: var(--text-muted);
+            font-size: 22px;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px #000;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        /* Піксельні кнопки у стилі Майнкрафт */
+        .btn {
+            background: #2b3b55;
+            border: 3px solid;
+            border-color: #5c7ba8 #1b263b #1b263b #5c7ba8;
+            color: #fff;
+            padding: 12px 24px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.1s;
+            text-shadow: 2px 2px #000;
+            box-shadow: inset 0 2px 0 rgba(255,255,255,0.2);
+        }
+        .btn.primary { background: #1c5230; border-color: #388d51 #0e2918 #0e2918 #388d51; color: var(--mc-accent); }
+        .btn:active { border-color: #1b263b #5c7ba8 #5c7ba8 #1b263b; transform: translateY(2px); }
+
+        /* Плашка статусів у вигляді піксельної панелі */
+        .status-strip {
+            background: var(--mc-card);
+            border-top: 4px solid var(--mc-border);
+            border-bottom: 4px solid var(--mc-border);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            flex-wrap: wrap;
+            text-align: center;
+            z-index: 10;
+        }
+        .status-cell span { display: block; font-size: 14px; color: var(--text-muted); }
+        .status-cell b { font-size: 20px; font-family: 'Press Start 2P', monospace; }
+
+        /* ФУРРІ ПЕРСОНАЖ ЗНИЗУ */
+        .furry-container {
+            position: fixed;
+            bottom: 10px;
+            left: 15px;
+            z-index: 100;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .furry-container:hover { transform: scale(1.08); }
+        .furry-img {
+            width: 75px;
+            height: 75px;
+            border-radius: 12px;
+            border: 3px solid var(--mc-blue);
+            background: #111;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+        }
+
+        /* Адмін панель */
+        .admin-trigger {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 16px;
+            cursor: pointer;
+            margin: 15px auto;
+            display: block;
+            text-decoration: underline;
+            z-index: 10;
+            font-family: 'VT323', monospace;
+        }
+        .admin-trigger:hover { color: var(--mc-accent); }
 
         .modal-overlay {
             position: fixed;
@@ -98,183 +201,151 @@
         .modal-overlay.show { opacity: 1; pointer-events: auto; }
         
         .modal-card {
-            background: #111827;
-            border: 3px solid var(--accent);
+            background: #192233;
+            border: 4px solid var(--mc-border);
+            border-top-color: #5c7ba8;
+            border-left-color: #5c7ba8;
             padding: 25px;
-            border-radius: 20px;
             text-align: center;
             max-width: 360px;
             width: 100%;
-            box-shadow: 0 0 40px rgba(0,0,0,0.9);
-            animation: popUp 0.3s ease;
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
         }
-        @keyframes popUp {
-            0% { transform: scale(0.7); }
-            100% { transform: scale(1); }
-        }
-
-        .rarity-common { border-color: #94a3b8; background: #0f172a; }
-        .rarity-rare { border-color: #38bdf8; box-shadow: 0 0 20px #38bdf8; }
-        .rarity-epic { border-color: #a855f7; box-shadow: 0 0 25px #a855f7; }
-        .rarity-legendary { border-color: #f59e0b; box-shadow: 0 0 30px #f59e0b, inset 0 0 15px #fbbf24; }
-        .rarity-mythic { border-color: #ef4444; box-shadow: 0 0 30px #ef4444; background: linear-gradient(135deg, #180505, #111827); }
-        .rarity-ultra { border-color: #06b6d4; box-shadow: 0 0 35px #06b6d4; }
-        .rarity-chromatic { border-image: linear-gradient(45deg, red, yellow, green, cyan, blue, violet) 1; box-shadow: 0 0 35px #ec4899; }
-        .rarity-absolute { border-color: #ff007f; box-shadow: 0 0 50px #ff007f, inset 0 0 30px #3b82f6; background: radial-gradient(circle, #000000 60%, #1e1b4b 100%); }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 25px;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(5, 8, 17, 0.85);
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 50;
-        }
-
-        .brand {
-            font-family: 'Unbounded', sans-serif;
-            font-size: 16px;
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .brand span small {
-            display: block;
-            font-size: 9px;
-            color: var(--green);
-            font-family: 'Manrope', sans-serif;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 50px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            z-index: 10;
-        }
-
-        h1 {
-            font-family: 'Unbounded', sans-serif;
-            font-size: clamp(20px, 4vw, 36px);
-            margin-bottom: 15px;
-            line-height: 1.3;
-        }
-        h1 span { color: var(--accent); }
-
-        p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-
-        .actions {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            transition: 0.2s;
-            font-size: 12px;
-            font-family: 'Unbounded', sans-serif;
-            box-shadow: inset 0 3px 6px rgba(255,255,255,0.25);
-        }
-        .btn.primary { background: #0284c7; border-color: #0369a1; }
-        .btn:hover { transform: translateY(-2px); border-color: var(--accent); }
-
-        .snowman-box {
-            text-align: center;
-            margin: 25px auto 10px auto;
-            z-index: 10;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-        .snowman-art {
-            font-size: 38px;
-            line-height: 1.2;
-            margin-bottom: 5px;
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
-        }
-
-        .admin-trigger {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 11px;
-            cursor: pointer;
-            margin: 15px auto;
-            display: block;
-            text-decoration: underline;
-            z-index: 10;
-        }
-        .admin-trigger:hover { color: var(--accent); }
-
-        .status-strip {
-            background: var(--card-bg);
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            text-align: center;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-        }
-        .status-cell span { display: block; font-size: 10px; color: var(--text-muted); margin-bottom: 2px; }
-        .status-cell b { font-size: 12px; font-family: 'Unbounded', sans-serif; }
 
         footer {
             text-align: center;
             padding: 20px;
-            font-size: 11px;
+            font-size: 16px;
             color: var(--text-muted);
-            border-top: 1px solid var(--border-color);
+            border-top: 4px solid var(--mc-border);
             z-index: 10;
-        }
-
-        .admin-select {
-            width: 100%;
-            max-width: 100%;
-            background: #050811;
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-family: 'Manrope', sans-serif;
-            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
 
-    <div id="frost-overlay"></div>
-
-    <div class="easter-counter" onclick="openInfoModal()">
-        🎁 <span id="found-count">0</span>/14
+    <!-- Фуррі персонаж знизу зліва (меукає при кліку) -->
+    <div class="furry-container" onclick="meowSound()">
+        <img src="https://i.imgur.com/7k123ab.png" alt="Furry" class="furry-img" id="furryImg" onerror="this.src='https://images.unsplash.com/photo-1534361960057-19889db9621e?w=150&auto=format&fit=crop&q=80'">
+        <div style="font-size: 11px; color: var(--mc-blue); text-shadow: 1px 1px #000; margin-top:2px;">Клікни мене!</div>
     </div>
 
-    <div id="info-modal" class="modal-overlay">
+    <!-- Модалка адмінки -->
+    <div id="admin-modal" class="modal-overlay">
         <div class="modal-card">
-            <h3 style="font-family:'Unbounded'; font-size:15px; margin-bottom
+            <h3 style="font-family:'Press Start 2P'; font-size:12px; margin-bottom:15px; color:var(--mc-accent);">🔐 АДМІН-ПАНЕЛЬ</h3>
+            <p style="font-size:18px; margin-bottom:15px;">Панель управления сервером NeoForge 1.21.1</p>
+            <button class="btn primary" onclick="closeAdminModal()" style="width:100%; margin-bottom:10px;">Закрыть</button>
+        </div>
+    </div>
+
+    <header>
+        <a class="brand" href="#">
+            <span>kvakositRulit<small>#server-hub</small></span>
+        </a>
+    </header>
+
+    <main class="hero">
+        <h1>ЗИМА. МЕТЕЛЬ. <span>МАЙНКРАФТ.</span></h1>
+        <p>Главный хаб проектов, сборок и личное пространство в пиксельном стиле.</p>
+        
+        <div class="actions">
+            <a href="https://github.com/qewsvit9" target="_blank" class="btn primary">GitHub Профиль</a>
+            <button class="btn" onclick="copyIP()">Скопировать IP</button>
+        </div>
+
+        <button class="admin-trigger" onclick="requestAdmin()">Панель управления</button>
+    </main>
+
+    <section class="status-strip">
+        <div class="status-cell"><span>СТАТУС</span><b id="serverStatus" style="color: var(--mc-accent);">ONLINE</b></div>
+        <div class="status-cell"><span>ВЕРСИЯ</span><b>NeoForge 1.21.1</b></div>
+        <div class="status-cell"><span>ОНЛАЙН</span><b id="serverOnline" style="color: var(--mc-blue);">...</b></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 kvakositRulit. Зимний вайб под контролем.</p>
+    </footer>
+
+    <!-- Аудіо для мяукання та ембієнту -->
+    <audio id="meowAudio" src="https://assets.mixkit.co/active_storage/sfx/3141/3141-preview.mp3"></audio>
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Музика при першому кліку
+        window.addEventListener('click', () => {
+            const music = document.getElementById('bgMusic');
+            if(music && music.paused) { music.volume = 0.2; music.play().catch(()=>{}); }
+        }, { once: true });
+
+        // Мяукання фуррі
+        function meowSound() {
+            const audio = document.getElementById('meowAudio');
+            if(audio) {
+                audio.currentTime = 0;
+                audio.play().catch(()=>{});
+            }
+        }
+
+        // Моніторинг сервера Play2Go
+        const SERVER_IP = "c4.play2go.cloud:20072";
+
+        async function fetchServerStatus() {
+            try {
+                let response = await fetch(`https://api.mcsrvstat.us/3/${SERVER_IP}`);
+                let data = await response.json();
+                const statusEl = document.getElementById('serverStatus');
+                const onlineEl = document.getElementById('serverOnline');
+
+                if(data && data.online) {
+                    if(statusEl) { statusEl.innerText = "ONLINE"; statusEl.style.color = "var(--mc-accent)"; }
+                    if(onlineEl) { onlineEl.innerText = `${data.players.online} / ${data.players.max}`; }
+                } else {
+                    if(statusEl) { statusEl.innerText = "ONLINE"; statusEl.style.color = "var(--mc-accent)"; }
+                    if(onlineEl) { onlineEl.innerText = "ГОТОВИЙ"; }
+                }
+            } catch(e) {
+                document.getElementById('serverOnline').innerText = "ГОТОВИЙ";
+            }
+        }
+        fetchServerStatus();
+
+        // Снігопад
+        const snowflakeSymbols = ['*', '·', '+', 'o'];
+        function createSnow() {
+            const snow = document.createElement('div');
+            snow.classList.add('snowflake');
+            snow.innerHTML = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+            snow.style.left = Math.random() * window.innerWidth + 'px';
+            const fontSize = Math.random() * 14 + 10;
+            snow.style.fontSize = fontSize + 'px';
+            const duration = Math.random() * 4 + 3 + 's';
+            snow.style.animationDuration = duration;
+            snow.style.opacity = Math.random() * 0.7 + 0.3;
+            document.body.appendChild(snow);
+            setTimeout(() => snow.remove(), parseFloat(duration) * 1000);
+        }
+        setInterval(createSnow, 100);
+
+        // Адмін-панель
+        function requestAdmin() {
+            const pass = prompt("Введите пароль админа:");
+            if(pass === "513600") {
+                document.getElementById('admin-modal').classList.add('show');
+            } else if(pass !== null) {
+                alert("Неверный пароль!");
+            }
+        }
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.remove('storage') || document.getElementById('admin-modal').classList.remove('show');
+        }
+
+        function copyIP() {
+            navigator.clipboard.writeText("c4.play2go.cloud:20072");
+            alert("IP сервера скопирован в буфер обмена!");
+        }
+    </script>
+</body>
+</html>
