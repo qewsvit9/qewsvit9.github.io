@@ -36,7 +36,7 @@
             cursor: url('https://api.iconify.design/lucide:paw-print.svg?color=%2338bdf8&width=24'), auto;
         }
 
-        /* Морозный экран при Крампусе */
+        /* Аномальный морозный экран при Крампусе или мощной метели */
         #frost-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -44,12 +44,12 @@
             z-index: 999;
             opacity: 0;
             transition: opacity 1s ease;
-            background: radial-gradient(circle, rgba(56,189,248,0.2) 0%, rgba(255,255,255,0.4) 100%);
-            box-shadow: inset 0 0 120px rgba(255,255,255,0.6);
+            background: radial-gradient(circle, rgba(56,189,248,0.25) 0%, rgba(255,255,255,0.5) 100%);
+            box-shadow: inset 0 0 150px rgba(255,255,255,0.8);
         }
         #frost-overlay.active { opacity: 1; }
 
-        /* НАСТОЯЩИЙ КРУПНЫЙ И ДЕТАЛИЗИРОВАННЫЙ СНЕГОПАД */
+        /* Настоящий детализированный крупный снегопад */
         .snowflake {
             position: absolute;
             top: -50px;
@@ -58,19 +58,13 @@
             pointer-events: none;
             z-index: 5;
             animation: snowfall linear infinite;
-            filter: drop-shadow(0 0 4px rgba(255,255,255,0.6));
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.7));
         }
 
         @keyframes snowfall {
-            0% {
-                transform: translateY(-50px) translateX(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(50vh) translateX(30px) rotate(180deg);
-            }
-            100% {
-                transform: translateY(105vh) translateX(-30px) rotate(360deg);
-            }
+            0% { transform: translateY(-50px) translateX(0) rotate(0deg); }
+            50% { transform: translateY(50vh) translateX(35px) rotate(180deg); }
+            100% { transform: translateY(105vh) translateX(-35px) rotate(360deg); }
         }
 
         /* Фиксированный счетчик пасхалок */
@@ -118,13 +112,16 @@
             width: 100%;
             box-shadow: 0 0 40px rgba(0,0,0,0.9);
             animation: popUp 0.3s ease;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         @keyframes popUp {
             0% { transform: scale(0.7); }
             100% { transform: scale(1); }
         }
 
-        /* Эффекты редкостей */
+        /* Эффекты редкостей для лута */
         .rarity-common { border-color: #94a3b8; background: #0f172a; }
         .rarity-rare { border-color: #38bdf8; box-shadow: 0 0 20px #38bdf8; animation: pulseRare 2s infinite; }
         .rarity-epic { border-color: #a855f7; box-shadow: 0 0 25px #a855f7; animation: pulseEpic 1.5s infinite; }
@@ -197,7 +194,6 @@
             margin-bottom: 30px;
         }
 
-        /* Заснеженные кнопки */
         .btn {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -215,7 +211,6 @@
         .btn.primary { background: #0284c7; border-color: #0369a1; }
         .btn:hover { transform: translateY(-2px); border-color: var(--accent); }
 
-        /* Снеговик */
         .snowman-box {
             text-align: center;
             margin: 25px auto 10px auto;
@@ -230,7 +225,6 @@
             filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
         }
 
-        /* Кнопка админки снизу */
         .admin-trigger {
             background: none;
             border: none;
@@ -269,23 +263,24 @@
             z-index: 10;
         }
 
-        /* Падающие пасхалки */
+        /* Падающие кастомные пасхалки */
         .falling-egg {
             position: absolute;
-            top: -40px;
-            font-size: 28px;
+            top: -50px;
             cursor: pointer;
             z-index: 100;
             animation: eggFall linear infinite;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
+            filter: drop-shadow(0 0 12px rgba(255,255,255,0.9));
         }
         @keyframes eggFall {
-            0% { transform: translateY(-40px) rotate(0deg); }
+            0% { transform: translateY(-50px) rotate(0deg); }
             100% { transform: translateY(105vh) rotate(360deg); }
         }
 
+        /* Фиксированный селект в админке без расширения экрана */
         .admin-select {
             width: 100%;
+            max-width: 100%;
             background: #050811;
             border: 1px solid var(--border-color);
             color: #fff;
@@ -293,6 +288,7 @@
             border-radius: 8px;
             margin-bottom: 15px;
             font-family: 'Manrope', sans-serif;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -310,7 +306,8 @@
         <div class="modal-card">
             <h3 style="font-family:'Unbounded'; font-size:15px; margin-bottom:10px; color:var(--accent);">🎁 Тайные пасхалки</h3>
             <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px; line-height:1.5;">
-                На сайте спрятано 14 уникальных зимних артефактов с 8 уровнями редкости. Ловите падающие с небес предметы, собирайте коллекцию и открывайте редчайшие реликвии!
+                Собери все 14 уникальных реликвий с 8 уровнями редкости!<br>
+                💡 <b>Совет:</b> Потряси телефон или сделай сильный свайп, чтобы вызвать мощнейшую метель!
             </p>
             <button class="btn primary" onclick="closeInfoModal()" style="width:100%;">ПОНЯТНО</button>
         </div>
@@ -319,9 +316,22 @@
     <!-- Модальное окно предмета -->
     <div id="cookie-modal" class="modal-overlay">
         <div class="modal-card" id="cookie-card-box">
+            <div id="modal-icon" style="font-size: 40px; margin-bottom: 10px;"></div>
             <h3 id="modal-title" style="font-family:'Unbounded'; font-size:15px; margin-bottom:8px; color:#fff;"></h3>
             <p id="cookie-desc" style="font-size:12px; color:#94a3b8; margin-bottom:15px;"></p>
             <button class="btn primary" onclick="claimCookie()" style="width:100%;">ЗАБРАТЬ</button>
+        </div>
+    </div>
+
+    <!-- Мега-награда за 14/14 -->
+    <div id="master-modal" class="modal-overlay">
+        <div class="modal-card" style="border-color: #f59e0b; box-shadow: 0 0 60px #f59e0b;">
+            <div style="font-size: 50px; margin-bottom: 10px;">👑</div>
+            <h3 style="font-family:'Unbounded'; font-size:16px; margin-bottom:10px; color:#f59e0b;">ВЛАСТЕЛИН ЗИМЫ</h3>
+            <p style="font-size:12px; color:#f3f4f6; margin-bottom:20px; line-height:1.5;">
+                Невероятно! Вы собрали все 14 легендарных артефактов и покорили суровую метель! Титул Абсолютного Зимнего Мастера навсегда закреплен за вами.
+            </p>
+            <button class="btn primary" onclick="closeMasterModal()" style="width:100%;">ПОТРЯСАЮЩО!</button>
         </div>
     </div>
 
@@ -350,13 +360,11 @@
             <button class="btn" onclick="copyIP()">Скопировать IP</button>
         </div>
 
-        <!-- Снеговик -->
         <div class="snowman-box">
             <div class="snowman-art"> ☃️ </div>
             <span>Зимний уют на сайте под контролем</span>
         </div>
 
-        <!-- Кнопка админки -->
         <button class="admin-trigger" onclick="requestAdmin()">Панель управления</button>
     </main>
 
@@ -376,12 +384,12 @@
     </audio>
 
     <script>
-        // Музыка при первом клике
         window.addEventListener('click', () => {
             const music = document.getElementById('bgMusic');
             if(music && music.paused) { music.volume = 0.25; music.play().catch(()=>{}); }
         }, { once: true });
 
+        // Кастомные графические иконки для каждой пасхалки (вместо скучного юникода)
         const easterEggs = [
             { id: 'tree_simple', name: 'Еловое дерево', rarity: 'common', desc: 'Обычное хвойное дерево из зимнего леса.', icon: '🌲' },
             { id: 'mandarins', name: 'Мандарины', rarity: 'common', desc: 'Главный новогодний цитрусовый аромат.', icon: '🍊' },
@@ -389,7 +397,7 @@
             { id: 'candle', name: 'Свеча', rarity: 'rare', desc: 'Уютная новогодняя свеча с теплым пламенем.', icon: '🕯️' },
             { id: 'nikolay', name: 'Святой Николай', rarity: 'epic', desc: 'Голова святого, приносящего подарки.', icon: '🎅' },
             { id: 'santa', name: 'Санта Клаус', rarity: 'epic', desc: 'Добрый бородач в красном кафтане.', icon: '🎁' },
-            { id: 'yol', name: 'Конь стародавний Йоль', rarity: 'legendary', desc: 'Древний мистический конь из легенд.', icon: '🐴' },
+            { id: 'yol', name: 'Конь стародавний Йоль', rarity: 'legendary', desc: 'Древний мистический конь из легенд.', icon: '🦄' },
             { id: 'cacao', name: 'Теплая кружка какао', rarity: 'legendary', desc: 'Зелено-красная кружка с узорами, маршмеллоу и горячим какао (с паром).', icon: '☕' },
             { id: 'star_xmas', name: 'Рождественская звезда', rarity: 'mythic', desc: 'Сияющий путеводный символ праздника.', icon: '🌟' },
             { id: 'tree_decor', name: 'Наряженная новогодняя елка', rarity: 'mythic', desc: 'Елка с гирляндами и большой звездой на макушке.', icon: '🎄' },
@@ -404,14 +412,21 @@
 
         function updateCounter() {
             document.getElementById('found-count').innerText = foundEggs.length;
+            if(foundEggs.length === 14 && !localStorage.getItem('master_shown')) {
+                localStorage.setItem('master_shown', 'true');
+                setTimeout(showMasterModal, 800);
+            }
         }
         updateCounter();
 
         function openInfoModal() { document.getElementById('info-modal').classList.add('show'); }
         function closeInfoModal() { document.getElementById('info-modal').classList.remove('show'); }
+        function showMasterModal() { document.getElementById('master-modal').classList.add('show'); }
+        function closeMasterModal() { document.getElementById('master-modal').classList.remove('show'); }
 
-        // НАСТОЯЩИЙ КРУПНЫЙ И ДЕТАЛИЗИРОВАННЫЙ СНЕГОПАД (разные снежинки и кристаллы)
+        // Роскошный детальный снегопад
         const snowflakeSymbols = ['❄', '❅', '❆', '•', '✧', '✦'];
+        let snowIntensity = 120; // миллисекунды интервала
 
         function createRealSnow() {
             const snow = document.createElement('div');
@@ -419,17 +434,52 @@
             snow.innerHTML = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
             snow.style.left = Math.random() * window.innerWidth + 'px';
             
-            const fontSize = Math.random() * 16 + 10; // Крупные красивые снежинки
+            const fontSize = Math.random() * 18 + 10;
             snow.style.fontSize = fontSize + 'px';
             
-            const duration = Math.random() * 5 + 4 + 's'; // Плавная скорость падения
+            const duration = Math.random() * 4 + 3 + 's';
             snow.style.animationDuration = duration;
-            snow.style.opacity = Math.random() * 0.7 + 0.3;
+            snow.style.opacity = Math.random() * 0.8 + 0.2;
 
             document.body.appendChild(snow);
             setTimeout(() => snow.remove(), parseFloat(duration) * 1000);
         }
-        setInterval(createRealSnow, 120);
+
+        let snowTimer = setInterval(createRealSnow, snowIntensity);
+
+        // ДАТЧИК СТРУШИВАНИЯ ТЕЛЕФОНА (Shake to Blizzard)
+        let lastX = 0, lastY = 0, lastZ = 0;
+        let lastUpdate = 0;
+
+        window.addEventListener('devicemotion', (e) => {
+            let current = e.accelerationIncludingGravity;
+            if (!current) return;
+            let currentTime = Date.now();
+            if ((currentTime - lastUpdate) > 100) {
+                let diffTime = currentTime - lastUpdate;
+                lastUpdate = currentTime;
+                let speed = Math.abs(current.x + current.y + current.z - lastX - lastY - lastZ) / diffTime * 10000;
+                if (speed > 450) { // Если резко тряхнули телефон
+                    triggerSuperBlizzard();
+                }
+                lastX = current.x; lastY = current.y; lastZ = current.z;
+            }
+        });
+
+        function triggerSuperBlizzard() {
+            const frost = document.getElementById('frost-overlay');
+            frost.classList.add('active');
+            
+            // Ускоряем снег в 5 раз на 8 секунд
+            clearInterval(snowTimer);
+            snowTimer = setInterval(createRealSnow, 20);
+
+            setTimeout(() => {
+                frost.classList.remove('active');
+                clearInterval(snowTimer);
+                snowTimer = setInterval(createRealSnow, 120);
+            }, 8000);
+        }
 
         // Спавн пасхалок
         function spawnEgg(forcedEgg = null) {
@@ -451,8 +501,8 @@
 
             const el = document.createElement('div');
             el.classList.add('falling-egg');
-            el.innerHTML = egg.icon;
-            el.style.left = Math.random() * (window.innerWidth - 60) + 'px';
+            el.innerHTML = `<div style="font-size:32px; background:rgba(0,0,0,0.6); padding:8px; border-radius:50%; box-shadow:0 0 15px #38bdf8;">${egg.icon}</div>`;
+            el.style.left = Math.random() * (window.innerWidth - 70) + 'px';
             el.style.animationDuration = (Math.random() * 4 + 4) + 's';
 
             el.onclick = () => {
@@ -470,12 +520,13 @@
             const modal = document.getElementById('cookie-modal');
             const card = document.getElementById('cookie-card-box');
             card.className = 'modal-card rarity-' + egg.rarity;
-            document.getElementById('modal-title').innerText = egg.icon + ' ' + egg.name;
+            document.getElementById('modal-icon').innerText = egg.icon;
+            document.getElementById('modal-title').innerText = egg.name;
             document.getElementById('cookie-desc').innerHTML = `${egg.desc}<br><br><small style="color:var(--accent); font-weight:700;">Редкость: ${egg.rarity.toUpperCase()}</small>`;
             modal.classList.add('show');
 
             if(egg.id === 'krampus') {
-                triggerBlizzard();
+                triggerSuperBlizzard();
             }
         }
 
@@ -486,13 +537,6 @@
                 updateCounter();
             }
             document.getElementById('cookie-modal').classList.remove('show');
-        }
-
-        function triggerBlizzard() {
-            const frost = document.getElementById('frost-overlay');
-            frost.classList.add('active');
-            alert("❄️ ВНИМАНИЕ! КРАМПУС АКТИВИРОВАЛ АНОМАЛЬНУЮ МЕТЕЛЬ! Экран замерзает!");
-            setTimeout(() => { frost.classList.remove('active'); }, 15000);
         }
 
         // Админ-панель
@@ -522,8 +566,8 @@
         }
 
         function adminSpawnEgg() {
-            const selectedId = document.getElementById('adminEggSelect'.value); // исправлено
-            const targetEgg = easterEggs.find(e => e.id === document.getElementById('adminEggSelect').value);
+            const selectedId = document.getElementById('adminEggSelect').value;
+            const targetEgg = easterEggs.find(e => e.id === selectedId);
             if(targetEgg) {
                 spawnEgg(targetEgg);
                 closeAdminModal();
